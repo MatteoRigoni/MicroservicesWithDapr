@@ -1,0 +1,4 @@
+start dapr run --app-id mvcfront --app-port 5002 --dapr-http-port 50002 --components-path ".\components" dotnet run --project ".\MvcFront\MvcFront.csproj"
+start dapr run --app-id orderms --app-port 5003 --components-path ".\components" dotnet run --project ".\OrdersApi\OrdersApi.csproj"
+start dapr run --app-id facesapi --app-port 5004 --dapr-http-port 50004 --components-path ".\components" dotnet run --project ".\FacesApi\FacesApi.csproj"
+start dapr run --app-id notificationapi --app-port 5005 --dapr-http-port 50005 --components-path ".\components" dotnet run --project ".\NotificationApi\NotificationApi.csproj"

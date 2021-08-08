@@ -1,0 +1,74 @@
+﻿@model UploadDataCommand
+
+    <div class="container">
+        <div class="row ">
+                <img class="" style="margin-left:-50px" src="~/images/logo.png" width="150px">
+            <div style="display: flex; align-items: center; margin-left:-30px">
+
+                <h3 >&nbsp;Faces' Photo Uploader </h3>
+
+            </div>
+        </div>
+    </div>
+    <form asp-controller="Home" asp-action="UploadData" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-10">
+                <h4>Enter your email address and upload your face picture</h4>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-10">
+                <p>Upload your image file using the button below</p>
+                <input type="file" name="file" id="imageBrowse" />
+            </div>
+            <div id="imgPreview" class="img-thumbnail" style="display:none">
+                <img class="imgresponsive" id="targetImg" />
+                <div class="caption">
+                    <a href="#" onclick="ClearPreview()"><i class="glyphicon glyphicon-trash"></i></a>
+                    <span id="description"></span>
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-info mt-2" value="Submit" />
+    </form>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $("#imageBrowse").change(function () {
+                    var File = this.files;
+                    if (File && File[0]) {
+                        ReadImage(File[0]);
+                    }
+                })
+            })
+
+            var ReadImage = function (file) {
+                var reader = new FileReader;
+                var image = new Image;
+
+                reader.readAsDataURL(file);
+                reader.onload = function (_file) {
+                    image.src = _file.target.result;
+                    image.onload = function () {
+                        var height = this.height;
+                        var width = this.width;
+                        var type = file.type;
+                        var size = ~~(file.size / 1024) + "KB";
+
+                        $("#targetImg").attr('src', _file.target.result);
+                        $("#description").text("Size:" + size + ", " + height + " X " + width);
+                        $("#imgPreview").show();
+                    }
+                }
+            }
+
+            var ClearPreview = function () {
+                $("#imageBrowse").val('');
+                $("#description").text('');
+                $("#imgPreview").hide();
+            }
+        </script>
+    }
